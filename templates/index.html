@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+body, html {
+    margin: 0;
+    font-family: sans-serif;
+background-color:#f0f0f0;
+}
+</style>
+    <title>Todo App</title>
+</head>
+
+    <h1>Todo List</h1>
+    <div>Add a new todo item: 
+        <form action="{{ url_for('add') }}" method="POST">
+            <input type="text" required name="todoitem">
+            <input type="submit" value="Add Item">
+        </form>
+    </div>
+     <div class="row">
+  <div class="column">
+        {% if incomplete|length >= 1 %}
+        <h3 style="font-size: 15pt">Incomplete Tasks <a href="{{ url_for('I_clear_task') }}"> Clear All</a></h3>
+        {%endif%}
+        <ul>
+            {% for todo in incomplete %}
+            <li style="font-size: 15pt">{{ todo.text }} <a href="{{ url_for('complete', id=todo.id) }}">finsih</a></li>
+            {% endfor %}    
+        </ul></div>
+        <div class="column">
+        {% if complete|length >= 1 %}
+        <h3 style="font-size: 15pt">Completed Tasks <a href="{{ url_for('C_clear_task') }}"> Clear All</a></h3>
+        <!-- <li > </li> -->
+        {% endif%}
+        <ul>
+            {% for todo in complete %}
+            <li style="font-size: 15pt">{{ todo.text }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+    </div>
+</body>
+</html>
